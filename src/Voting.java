@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Voting {
     private int type;
-    private  String question;
+    private String question;
     private ArrayList<Person> voters;
     private HashMap<String, HashSet<Vote>> choices;
     boolean isAnonymous;
@@ -25,6 +25,7 @@ public class Voting {
         return choices;
     }
 
+
     public void createChoices(String choice) {
         HashSet<Vote> votes = new HashSet<Vote>();
         this.choices.put(choice, votes);
@@ -46,6 +47,29 @@ public class Voting {
         if (o == null || getClass() != o.getClass()) return false;
         Voting voting = (Voting) o;
         return type == voting.type && isAnonymous == voting.isAnonymous && question.equals(voting.question) && Objects.equals(voters, voting.voters) && choices.equals(voting.choices);
+    }
+
+
+    public void vote(Person voter, String date, ArrayList<String> voter_choices) {
+        Vote newVote = new Vote(voter,date);
+        voters.add(voter);
+        for (String choice: voter_choices) {
+            choices.get(choice).add(newVote);
+        }
+    }
+
+    public void vote(Person person, String date) {
+        Vote newVote = new Vote(person,date);
+        voters.add(person);
+        Random generator = new Random();
+        String[] keyArr = choices.keySet().toArray(new String[0]);
+        choices.get(keyArr[generator.nextInt(keyArr.length)]).add(newVote);
+    }
+
+    public void printResults() {
+        for (String choice: choices.keySet()) {
+            System.out.println(choice + ":" + choices.get(choice).size());
+        }
     }
 
 }
