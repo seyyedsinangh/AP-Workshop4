@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 
 public class Voting {
     private int type;
@@ -28,6 +25,31 @@ public class Voting {
         return choices;
     }
 
+
+    public void createChoices(String choice) {
+        HashSet<Vote> votes = new HashSet<Vote>();
+        this.choices.put(choice, votes);
+    }
+
+    public void printVotes() {
+        for(String choice: this.choices.keySet()){
+            System.out.println(choice);
+            for(Vote voter: this.choices.get(choice)){
+                System.out.println("first name: " + voter.getVoter().getFirstName() + "\n" + "last name: " + voter.getVoter().getLastName());
+                System.out.println("date of vote: " + voter.getDate());
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Voting voting = (Voting) o;
+        return type == voting.type && isAnonymous == voting.isAnonymous && question.equals(voting.question) && Objects.equals(voters, voting.voters) && choices.equals(voting.choices);
+    }
+
+
     public void vote(Person voter, String date, ArrayList<String> voter_choices) {
         Vote newVote = new Vote(voter,date);
         voters.add(voter);
@@ -49,4 +71,5 @@ public class Voting {
             System.out.println(choice + ":" + choices.get(choice).size());
         }
     }
+
 }
