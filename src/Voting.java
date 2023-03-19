@@ -4,13 +4,15 @@ public class Voting {
     private int type;
     private String question;
     private ArrayList<Person> voters;
-    private HashMap<String, HashSet<Vote>> choices;
+    private HashMap<String,HashSet<Vote>> choices;
     boolean isAnonymous;
 
     public Voting(int type, String question, boolean isAnonymous) {
         this.type = type;
         this.question = question;
         this.isAnonymous = isAnonymous;
+        this.voters = new ArrayList<Person>();
+        this.choices = new HashMap<String,HashSet<Vote>>();
     }
 
     public String getQuestion() {
@@ -21,8 +23,12 @@ public class Voting {
         this.question = question;
     }
 
-    public HashMap<String, HashSet<Vote>> getChoices() {
-        return choices;
+    public ArrayList<String> getChoices() {
+        ArrayList<String> votingChoices = new ArrayList<String>();
+        for (String choice: choices.keySet()) {
+            votingChoices.add(choice);
+        }
+        return votingChoices;
     }
 
 
@@ -31,13 +37,18 @@ public class Voting {
         this.choices.put(choice, votes);
     }
 
-    public void printVotes() {
+    public void printVoters() {
+        if (isAnonymous) {
+            System.out.println("\tThe voting is anonymous.You can't see the voters.");
+        }
         for(String choice: this.choices.keySet()){
-            System.out.println(choice);
+            int i = 1;
+            System.out.println("\t" + choice + " {");
             for(Vote voter: this.choices.get(choice)){
-                System.out.println("first name: " + voter.getVoter().getFirstName() + "\n" + "last name: " + voter.getVoter().getLastName());
-                System.out.println("date of vote: " + voter.getDate());
+                System.out.println("\tVoter" + (i++) + ": " + voter.getVoter().toString());
+                System.out.println("\tDate of vote: " + voter.getDate());
             }
+            System.out.println("\t}");
         }
     }
 
@@ -68,8 +79,7 @@ public class Voting {
 
     public void printResults() {
         for (String choice: choices.keySet()) {
-            System.out.println(choice + ":" + choices.get(choice).size());
+            System.out.println("\t" + choice + ": " + choices.get(choice).size());
         }
     }
-
 }
