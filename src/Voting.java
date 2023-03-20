@@ -15,6 +15,10 @@ public class Voting {
         this.choices = new HashMap<String,HashSet<Vote>>();
     }
 
+    public int getType() {
+        return type;
+    }
+
     public String getQuestion() {
         return question;
     }
@@ -43,12 +47,12 @@ public class Voting {
         }
         for(String choice: this.choices.keySet()){
             int i = 1;
-            System.out.println("\t" + choice + " {");
+            System.out.println("\t" + choice);
             for(Vote voter: this.choices.get(choice)){
                 System.out.println("\tVoter" + (i++) + ": " + voter.getVoter().toString());
                 System.out.println("\tDate of vote: " + voter.getDate());
             }
-            System.out.println("\t}");
+            System.out.println("\t*************");
         }
     }
 
@@ -81,5 +85,12 @@ public class Voting {
         for (String choice: choices.keySet()) {
             System.out.println("\t" + choice + ": " + choices.get(choice).size());
         }
+    }
+
+    public void showRes() {
+        System.out.println((type == 0)?("This is a single-choice voting."):("This is a multiple-choice voting."));
+        System.out.println(this.question);
+        printVoters();
+        printResults();
     }
 }

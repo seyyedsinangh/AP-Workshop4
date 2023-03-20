@@ -7,7 +7,7 @@ public class VotingSystem {
         this.votingList = new ArrayList<Voting>();
     }
 
-    public ArrayList<Voting> getVotingList() {
+    private ArrayList<Voting> getVotingList() {
         return votingList;
     }
 
@@ -38,13 +38,19 @@ public class VotingSystem {
     public void printVoting(int index) {
         Voting voting = votingList.get(index);
         ArrayList<String> choices = voting.getChoices();
-        System.out.println("Voting" + (index+1) + " {");
+        System.out.println("Voting" + (index+1) + ": ");
         System.out.println("\tQuestion: " + voting.getQuestion());
         int i = 1;
         for (String choice: choices) {
             System.out.println("\t" + (i++) + "." + choice);
         }
-        System.out.println("}");
+        System.out.println("*********************");
+    }
+
+    public void showAllVotings() {
+        for(Voting voting: getVotingList()) {
+            printVoting(getVotingList().indexOf(voting));
+        }
     }
 
     public void vote(int index, Person voter, String date) {
